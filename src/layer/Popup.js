@@ -25,7 +25,8 @@ L.Popup = L.Layer.extend({
 		autoClose: true,
 		// keepInView: false,
 		// className: '',
-		zoomAnimation: true
+		zoomAnimation: true,
+		followMouse: false
 	},
 
 	initialize: function (options, source) {
@@ -138,7 +139,14 @@ L.Popup = L.Layer.extend({
 		if (this.options.keepInView) {
 			events.moveend = this._adjustPan;
 		}
+		if (this.options.followMouse) {
+			events.mousemove = this._mousemove;
+		}
 		return events;
+	},
+
+	_mousemove: function (e) {
+		this.setLatLng(e.latlng);
 	},
 
 	isOpen: function () {
