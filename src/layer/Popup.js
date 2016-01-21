@@ -21,7 +21,8 @@ L.Popup = L.Class.extend({
 		// autoPanPaddingBottomRight: null,
 		keepInView: false,
 		className: '',
-		zoomAnimation: true
+		zoomAnimation: true,
+		mouseFollow: false
 	},
 
 	initialize: function (options, source) {
@@ -146,8 +147,14 @@ L.Popup = L.Class.extend({
 		if (this.options.keepInView) {
 			events.moveend = this._adjustPan;
 		}
-
+		if (this.options.mouseFollow) {
+			events.mousemove = this._mousemove;
+		}
 		return events;
+	},
+
+	_mousemove: function (e) {
+		this.setLatLng(e.latlng);
 	},
 
 	_close: function () {
